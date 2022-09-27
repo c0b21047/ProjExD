@@ -48,7 +48,7 @@ if __name__ == "__main__": #main関数
         if ans(a): #回答が正しかったか
             print("正解です！！！")
             ed = datetime.datetime.now() #計測終了
-            print("かかった時間は",(ed-st).seconds,"秒です。")
+            print("かかった時間は",(ed-st).seconds,"秒です。") #かかった時間を表示 
             break
         else:
             print("不正解です。またチャレンジしてください")
