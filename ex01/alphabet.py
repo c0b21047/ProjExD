@@ -52,4 +52,4 @@ if __name__ == "__main__": #main関数
             break
         else:
             print("不正解です。またチャレンジしてください")
-            print("-"*40)
+            print("-"*40) #回の切れ目
