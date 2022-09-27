@@ -41,7 +41,7 @@ def ans(a): #回答確認 返り値がTrueで正解、Falseで不正解
 if __name__ == "__main__": #main関数
     st = datetime.datetime.now() #計測開始
     print(loop_n,"回挑戦できます")
-    for i in range(1,loop_n+1):
+    for i in range(1,loop_n+1): #挑戦可能回数分だけ繰り返す
         print(i,"回目の挑戦です")
         q = shutudai()
         a = del_alp(q)
