@@ -38,6 +38,7 @@ def ans(a): #回答確認 返り値がTrueで正解、Falseで不正解
         else:
             return False
 
+
 if __name__ == "__main__": #main関数
     st = datetime.datetime.now() #計測開始
     print(loop_n,"回挑戦できます")
