@@ -2,19 +2,23 @@ import tkinter as tk
 import tkinter.messagebox as tkm
 
 x = 0
-y = 2
+y = 3
 num = [i for i in range(9,0,-1)]
-ope = ["c","+","-","="]
+ope = ["c","bs","√","+","-","*","/","="]
+ckdel = False
 
 def ope_fnc(event):
+    global ckdel
     btn = event.widget
     txt = btn["text"]
     if txt == "=":
         formula = entry2.get() + entry.get()
         ans = eval(formula)
+        entry2.insert(tk.END,entry.get()+"=")
         entry.delete(0,tk.END)
         entry.insert(tk.END,ans)
-        entry2.delete(0,tk.END)
+        
+        ckdel = True
 
     elif txt == "c":
         entry.delete(0,tk.END)
@@ -30,10 +34,22 @@ def ope_fnc(event):
             entry.delete(0,tk.END)
             entry.insert(tk.END,sub)
 
-    elif txt == "+" or txt == "-":
+    elif txt == "bs":
+        entry.delete(0,1)
+        if entry.get() == "":
+            entry.insert(tk.END,0)
+        
+    elif txt == "√":
+        sub = float(entry.get()) ** (1/2)
+        if list(str(sub))[-1] == "0":
+            sub = int(sub)
+        entry.delete(0,tk.END)
+        entry.insert(tk.END,sub)
+
+    elif txt == "+" or txt == "-" or txt == "*" or txt == "/":
         entry.insert(tk.END,txt)
         entry2.insert(tk.END,entry.get())
-        entry.delete(0,tk.END)
+        entry.delete(0,tk.END) 
         entry.insert(tk.END,0)
 
     else:
@@ -42,6 +58,10 @@ def ope_fnc(event):
 
 
 def button_click(event):
+    global ckdel
+    if ckdel:
+        entry2.delete(0,tk.END)
+        ckdel = False
     btn = event.widget
     txt = btn["text"]
     if txt in ope+["+/-","."]:
@@ -74,11 +94,16 @@ for i in (num+[".",0,"+/-"]): #数字ボタンの配置
         x -= 1
 
 y = 2
-x = 3
+x = 0
+
 for i in ope:
     button = tk.Button(root,text=i,width=3,height=1,font=("",30))
     button.bind("<1>",button_click)
     button.grid(row=y, column=x)
-    y += 1
+    if x >= 3:
+        y += 1
+    else:
+        x += 1
+
 
 root.mainloop()
