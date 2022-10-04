@@ -46,7 +46,7 @@ def ope_fnc(event): #記号の処理
         entry.delete(0,tk.END)
         entry.insert(tk.END,sub)
 
-    elif txt == "+" or txt == "-" or txt == "*" or txt == "/": #四則演算用
+    elif txt in ("+","-","*","/"): #四則演算用
         entry.insert(tk.END,txt)
         entry2.insert(tk.END,entry.get())
         entry.delete(0,tk.END) 
