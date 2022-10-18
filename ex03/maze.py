@@ -29,32 +29,31 @@ def main_proc():
     cx = mx * 100 + 50
     cy = my * 100 + 50 #課題11
 
-    if maze_lst[my][mx] == 2:
+    if maze_lst[my][mx] == 2: #困ったこうかとんとの接触判定
         canv.coords("tori",cx-25,cy)
         canv.coords("goal",cx+25,cy)
-        ed = datetime.datetime.now()
+        ed = datetime.datetime.now() #終了時間
         time(ed)
     else:
         canv.coords("tori",cx,cy)
     nowtime = datetime.datetime.now()
-    label["text"] = f"{(nowtime-st).seconds}秒"
+    label["text"] = f"{(nowtime-st).seconds}秒" #画面上部の時間表示
     game = root.after(100,main_proc) #練習7
 
 
-def set_goal():
+def set_goal(): #ゴールの初期配置 ランダムな位置にゴールを設置
     global maze_lst,gx,gy
     while True:
         gx = random.randint(1,14)
         gy = random.randint(1,8)
-        print(gx,gy)
-        if maze_lst[gy][gx] == 0:
+        if maze_lst[gy][gx] == 0:  
             a = gx * 100 + 50
             b = gy * 100 + 50
             canv.coords("goal",a,b)
             maze_lst[gy][gx] = 2
             return True
 
-def time(ed):
+def time(ed): #終了時の時間表示 
     global maze_lst
     score = ed - st
     root.after_cancel(a)
@@ -63,7 +62,7 @@ def time(ed):
     tkm.showinfo("結果",f"記録：{score.seconds}秒")
 
 
-def escp_proc():
+def escp_proc(): #困ったこうかとんのランダム移動
     global gx,gy,a,maze_lst,speed
     sub = random.randint(0,5)
     if sub == 1 and maze_lst[gy-1][gx] != 1:
@@ -97,7 +96,7 @@ if __name__ == "__main__":
     root = tk.Tk()
     root.title("迷えるこうかとん") #練習1
 
-    label = tk.Label(root,text="",font=("",20))
+    label = tk.Label(root,text="",font=("",20)) #上部の時間表示用ラベル
     label.pack()
 
     canv = tk.Canvas(root,width=1500,height=900,bg="black")
@@ -105,23 +104,22 @@ if __name__ == "__main__":
 
     maze_lst = mm.make_maze(15,9) #練習9
     mm.show_maze(canv,maze_lst) #練習10
-    print(maze_lst)
 
-    mx, my = 1,1
+    mx, my = 1,1 #こうかとんのいるマス
     cx = mx * 100 + 50
-    cy = my * 100 + 50
+    cy = my * 100 + 50 #こうかとんの座標
 
-    gx,gy = 0,0
+    gx,gy = 0,0 #困ったこうかとんのいるマス
 
-    speed = 500
+    speed = 500 #困ったこうかとんの移動頻度
 
     tori = tk.PhotoImage(file="fig/0.png")
     canv.create_image(cx, cy, image=tori, tag="tori") #練習3
 
     goal = tk.PhotoImage(file="fig/8.png")
-    canv.create_image(0,0,image=goal, tag="goal")
+    canv.create_image(0,0,image=goal, tag="goal") #困ったこうかとんの表示
 
-    set_goal()
+    set_goal() #ゴールの初期配置
     
     key = "" #練習4
     root.bind("<KeyPress>",key_down)
