@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter.messagebox as tkm
 import maze_maker as mm
+import random
 
 
 def key_down(event):
@@ -31,6 +32,14 @@ def main_proc():
     root.after(100,main_proc) #練習7
 
 
+def set_goal():
+    while True:
+        rx = random.randint(0,15)
+#        if maze_lst[y][x] == 0:
+    goal = tk.PhotoImage(file="fig/8.png")
+    canv.create_image(100,100,image=goal, tag="goal")
+
+
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("迷えるこうかとん") #練習1
@@ -56,8 +65,6 @@ if __name__ == "__main__":
     root.bind("<KeyRelease>",key_up)
 
     main_proc()
- #   appel = tk.PhotoImage(file="fig/fruit_ringo.png")
- #   canv.create_image(100,100,image=appel, tag="apple")
 
     root.mainloop()
     
