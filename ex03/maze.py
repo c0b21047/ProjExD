@@ -58,14 +58,14 @@ def set_goal(): #ゴールの初期配置 ランダムな位置にゴールを�
 def time(ed): #終了時の時間表示 
     global maze_lst
     score = ed - st
-    root.after_cancel(a)
+    root.after_cancel(escp)
     root.after_cancel(game)
     maze_lst[my][mx] = 3
     tkm.showinfo("結果",f"記録：{score.seconds}秒")
 
 
 def escp_proc(): #困ったこうかとんのランダム移動
-    global gx,gy,a,maze_lst,speed
+    global gx,gy,escp,maze_lst,speed
     sub = random.randint(0,5)
     if sub == 1 and maze_lst[gy-1][gx] != 1:
         maze_lst[gy][gx] = 0
@@ -89,12 +89,12 @@ def escp_proc(): #困ったこうかとんのランダム移動
     
     canv.coords("goal",tx,ty)
 
-    a = root.after(speed,escp_proc)
+    escp = root.after(speed,escp_proc)
 
 
 if __name__ == "__main__":
     st = 0
-    game,a= None, None
+    game,escp= None, None
     root = tk.Tk()
     root.title("迷えるこうかとん") #練習1
 
