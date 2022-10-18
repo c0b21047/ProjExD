@@ -1,13 +1,30 @@
 import tkinter as tk
 import tkinter.messagebox as tkm
 
+
 def key_down(event):
     global key
     key = event.keysym #練習5
 
+
 def key_up(event):
     global key
     key = "" #練習6
+
+
+def main_proc():
+    global cx,cy
+    if key == "Up":
+        cy -= 20
+    elif key == "Down":
+        cy += 20
+    elif key == "Left":
+        cx -= 20
+    elif key == "Right":
+        cx += 20
+    canv.coords("tori",cx,cy)
+    root.after(100,main_proc) #練習7
+
 
 if __name__ == "__main__":
     root = tk.Tk()
@@ -24,6 +41,7 @@ if __name__ == "__main__":
     root.bind("<KeyPress>",key_down)
 
     root.bind("<KeyRelease>",key_up)
-
-
+    
+    main_proc()
     root.mainloop()
+    
