@@ -12,8 +12,10 @@ def key_down(event):
 def key_up(event):
     global key,st
     key = "" #練習6
-    if st == 0:
+    if st == 0 and game == None:
         st = datetime.datetime.now()
+        main_proc()
+        escp_proc()
 
 def main_proc():
     global cx,cy,mx,my,game
@@ -46,7 +48,7 @@ def set_goal(): #ゴールの初期配置 ランダムな位置にゴールを�
     while True:
         gx = random.randint(1,14)
         gy = random.randint(1,8)
-        if maze_lst[gy][gx] == 0:  
+        if maze_lst[gy][gx] == 0 and (gx != 1 or gy != 1):
             a = gx * 100 + 50
             b = gy * 100 + 50
             canv.coords("goal",a,b)
@@ -91,7 +93,7 @@ def escp_proc(): #困ったこうかとんのランダム移動
 
 
 if __name__ == "__main__":
-    st = datetime.datetime.now()
+    st = 0
     game,a= None, None
     root = tk.Tk()
     root.title("迷えるこうかとん") #練習1
@@ -125,9 +127,6 @@ if __name__ == "__main__":
     root.bind("<KeyPress>",key_down)
 
     root.bind("<KeyRelease>",key_up)
-
-    main_proc()
-    escp_proc()
 
     root.mainloop()
     
