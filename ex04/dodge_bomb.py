@@ -81,13 +81,13 @@ def main():
     pg.draw.circle(draw_sfc, (255,0,0), (10,10), 10)
     draw_sfc.set_colorkey("black")
     draw_rct = draw_sfc.get_rect()
-    draw_rct.center = random.randint(0,scrn_rct.width),random.randint(0,scrn_rct.height) #練習5
+    draw_rct.center = random.randint(10,scrn_rct.width-10),random.randint(10,scrn_rct.height-10) #練習5
     vx,vy = 1,1
 
     point_sfc = pg.Surface((20,20))
     point_sfc.set_colorkey("black")
     point_rct = point_sfc.get_rect()
-    point_rct.center = random.randint(0,scrn_rct.width),random.randint(0,scrn_rct.height) #三角形の作成とランダムな初期位置の設定
+    point_rct.center = random.randint(10,scrn_rct.width-10),random.randint(10,scrn_rct.height-10) #三角形の作成とランダムな初期位置の設定
 
     fonto = pg.font.Font(None,40) #スコア表示のフォント
 
@@ -138,14 +138,14 @@ def main():
         yoko,tate = check_bound(tori_rct,scrn_rct)
         if yoko == -1:
             if key_stats[pg.K_LEFT]:
-                tori_rct.centerx += 1
+                tori_rct.centerx += tv
             if key_stats[pg.K_RIGHT]:
-                tori_rct.centerx -= 1
+                tori_rct.centerx -= tv
         if tate == -1:
             if key_stats[pg.K_UP]:
-                tori_rct.centery += 1
+                tori_rct.centery += tv
             if key_stats[pg.K_DOWN]:
-                tori_rct.centery -= 1
+                tori_rct.centery -= tv
 
         yoko, tate = check_bound(draw_rct,scrn_rct)
         vx *= yoko
