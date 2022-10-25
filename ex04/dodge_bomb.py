@@ -1,6 +1,23 @@
+from typing import KeysView
 import pygame as pg
 import sys
 import random
+
+def check_bound(obj_rct,scr_rct):
+    """
+    obj_rct：こうかとんrct、または、爆弾rct
+    scr_rct：スクリーンrct
+    領域内：+1/領域外：-1
+    """
+    yoko, tate = 1,1
+    if obj_rct.left < scr_rct.left or scr_rct.right < obj_rct.right:
+        yoko = -1
+    if obj_rct.top < scr_rct.top or scr_rct.bottom < obj_rct.bottom:
+        tate = -1
+    return yoko,tate
+
+
+    
 
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
@@ -38,8 +55,23 @@ def main():
             tori_rct.centerx -= 1
         if key_stats[pg.K_RIGHT]:
             tori_rct.centerx += 1 #練習4
+        yoko,tate = check_bound(tori_rct,scrn_rct)
+        if yoko == -1:
+            if key_stats[pg.K_LEFT]:
+                tori_rct.centerx += 1
+            if key_stats[pg.K_RIGHT]:
+                tori_rct.centerx -= 1
+        if tate == -1:
+            if key_stats[pg.K_UP]:
+                tori_rct.centery += 1
+            if key_stats[pg.K_DOWN]:
+                tori_rct.centery -= 1
 
-        draw_rct.move_ip(vx,vy) #練習6
+        yoko, tate = check_bound(draw_rct,scrn_rct)
+        vx *= yoko
+        vy *= tate
+        draw_rct.move_ip(vx,vy) #練習7
+
         scrn_sfc.blit(draw_sfc,draw_rct)
         scrn_sfc.blit(tori_sfc,tori_rct)
 
