@@ -51,9 +51,6 @@ def end(): #ゲームオーバ画面
         pg.display.update()
         clock.tick(1000) #練習2
     
-        
-
-
 
 def check_bound(obj_rct,scr_rct):
     """
@@ -90,12 +87,13 @@ def main():
     point_sfc = pg.Surface((20,20))
     point_sfc.set_colorkey("black")
     point_rct = point_sfc.get_rect()
-    point_rct.center = random.randint(0,scrn_rct.width),random.randint(0,scrn_rct.height)
+    point_rct.center = random.randint(0,scrn_rct.width),random.randint(0,scrn_rct.height) #三角形の作成とランダムな初期位置の設定
 
-    fonto = pg.font.Font(None,40)
+    fonto = pg.font.Font(None,40) #スコア表示のフォント
 
-    R,G,B = 255,0,0
+    R,G,B = 255,0,0 #RGBの初期値
     clock = pg.time.Clock()
+
     while True:
         scrn_sfc.blit(bg_sfc,bg_rct)
 
@@ -123,14 +121,18 @@ def main():
                 return
 
         key_stats = pg.key.get_pressed()
+        if key_stats[pg.K_LSHIFT]: #左シフトキーを押している間こうかとんの移動速度が2倍
+            tv = 2
+        else:
+            tv = 1
         if key_stats[pg.K_UP]:
-            tori_rct.centery -= 1
+            tori_rct.centery -= tv
         if key_stats[pg.K_DOWN]:
-            tori_rct.centery += 1
+            tori_rct.centery += tv
         if key_stats[pg.K_LEFT]:
-            tori_rct.centerx -= 1
+            tori_rct.centerx -= tv
         if key_stats[pg.K_RIGHT]:
-            tori_rct.centerx += 1 #練習4
+            tori_rct.centerx += tv #練習4
 
         yoko,tate = check_bound(tori_rct,scrn_rct)
         if yoko == -1:
