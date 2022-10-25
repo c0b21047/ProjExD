@@ -55,6 +55,7 @@ def main():
             tori_rct.centerx -= 1
         if key_stats[pg.K_RIGHT]:
             tori_rct.centerx += 1 #練習4
+
         yoko,tate = check_bound(tori_rct,scrn_rct)
         if yoko == -1:
             if key_stats[pg.K_LEFT]:
@@ -74,6 +75,9 @@ def main():
 
         scrn_sfc.blit(draw_sfc,draw_rct)
         scrn_sfc.blit(tori_sfc,tori_rct)
+
+        if tori_rct.colliderect(draw_rct): #練習8
+            return
 
         pg.display.update()
         clock.tick(1000) #練習2
