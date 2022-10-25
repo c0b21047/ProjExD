@@ -92,6 +92,7 @@ def main():
     fonto = pg.font.Font(None,40) #スコア表示のフォント
 
     R,G,B = 255,0,0 #RGBの初期値
+    cv = 2 #こうかとんダッシュ時の加速倍率
     clock = pg.time.Clock()
 
     while True:
@@ -121,8 +122,8 @@ def main():
                 return
 
         key_stats = pg.key.get_pressed()
-        if key_stats[pg.K_LSHIFT]: #左シフトキーを押している間こうかとんの移動速度が2倍
-            tv = 2
+        if key_stats[pg.K_LSHIFT]: #左シフトを押している間加速
+            tv = cv
         else:
             tv = 1
         if key_stats[pg.K_UP]:
