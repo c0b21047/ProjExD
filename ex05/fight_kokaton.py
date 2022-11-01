@@ -99,10 +99,10 @@ class Bomb:
         self.color = colors
         pg.draw.circle(self.sfc, self.color, (10, 10), radius) # 爆弾用の円を描く
         self.rct = self.sfc.get_rect()
-        spawn_lst = [(randint(10, scr.rct.width-10), 10),
-                     (scr.rct.width-10, randint(10, scr.rct.height-10)),
-                     (scr.rct.height-10, randint(10, scr.rct.width-10)),
-                     (10, randint(10, scr.rct.height-10))]
+        spawn_lst = [(randint(20, scr.rct.width-20), 20),
+                     (scr.rct.width-20, randint(20, scr.rct.height-20)),
+                     (scr.rct.height-20, randint(20, scr.rct.width-20)),
+                     (20, randint(20, scr.rct.height-20))]
         self.rct.center = choice(spawn_lst)
         self.vx, self.vy = velocity
         self.life = 1
@@ -178,6 +178,7 @@ def check_bound(obj_rct, scr_rct):
 
 def main():
     score = 0
+    fvx, fvy = 1,1
     # 練習1
     scr = Screen("逃げろ！こうかとん", (1600,900), "fig/pg_bg.jpg")
 
@@ -185,7 +186,7 @@ def main():
     kkt = Bird("fig/6.png", 2.0, (900, 400))
 
     # 練習5
-    bombs = [Bomb((255,0,0), 10, (+1,-1), scr)]
+    bombs = [Bomb((255,0,0), 10, (fvx,fvy), scr)]
  
     pnt = Point(scr)
 
@@ -235,12 +236,15 @@ def main():
 
 
 
-            if kkt.rct.colliderect(pnt.rct): #得点処理
-                score += 1
-                pnt.ch_xy(scr)
-                if score % 3 == 0: #スコアが3の倍数時に速度が2倍
-                    bmb.vx *= 2
-                    bmb.vy *= 2
+        if kkt.rct.colliderect(pnt.rct): #得点処理
+            score += 1
+            pnt.ch_xy(scr)
+            if score % 3 == 0: #スコアが3の倍数時に速度が2倍
+                for bomb in bombs:
+                    bomb.vx *= 2
+                    bomb.vy *= 2
+                fvx *= 2
+                fvy *= 2
 
 
 
