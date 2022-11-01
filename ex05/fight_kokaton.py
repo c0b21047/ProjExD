@@ -2,8 +2,8 @@ import pygame as pg
 import sys
 from random import randint,choice
 
-BIRD_CH_SPEED = 2
-FIRE_RATE = 100
+BIRD_CH_SPEED = 2 #こうかとんのダッシュの倍率
+FIRE_RATE = 100 #こうかとんの弾の発射レート
 
 class Screen:
     """
@@ -143,9 +143,9 @@ class Point:
         self.blit(scr)
 
 
-def ch_color(color):
+def ch_color(color): #色変えよう
     R, G, B = color
-    if R == 255: #三角形の色変え
+    if R == 255: 
         if B != 0:
             B -= 3
         else:
@@ -220,7 +220,7 @@ def main():
         kkt.update(scr)
 
         if pg.time.get_ticks()%1000 == 1:
-            bombs.append(Bomb((255,0,0), 10, (+1,+1), scr))
+            bombs.append(Bomb((255,0,0), 10, (fvx,fvy), scr))
 
         for i,bmb in enumerate(bombs,0):
                 #    練習8
