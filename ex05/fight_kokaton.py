@@ -89,6 +89,7 @@ class Shot:
         self.rct.move_ip(self.vx, self.vy)
         self.blit(scr)
 
+
 class Bomb:
     """
     爆弾クラス
@@ -234,8 +235,6 @@ def main():
                         del bombs[i]
                         print(len(bombs))
 
-
-
         if kkt.rct.colliderect(pnt.rct): #得点処理
             score += 1
             pnt.ch_xy(scr)
@@ -246,11 +245,8 @@ def main():
                 fvx *= 2
                 fvy *= 2
 
-
-
         pg.display.update() #練習2
         clock.tick(1000)
-
 
 
 if __name__ == "__main__":
