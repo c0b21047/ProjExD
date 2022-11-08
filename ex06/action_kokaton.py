@@ -12,8 +12,8 @@ class Screen:
     """
     def __init__(self, title, rect, file):
         """
-        title：スクリーンのタイトル
-        rect：スクリーンの大きさ
+        title：スクリーンのタイトル\n
+        rect：スクリーンの大きさ\n
         file：背景画像のファイルパス
         """
         pg.display.set_caption(title)
@@ -32,7 +32,7 @@ class Screen:
     
     def update(self,speed):
         """
-        背景を動かす
+        背景を動かす\n
         speed：背景を動かす速度
         """
         self.bg_x = (self.bg_x - speed)%1600
@@ -45,8 +45,8 @@ class Tori:
     """
     def __init__(self, img, zoom, xy):
         """
-        img：画像ファイルのパス
-        zoom：拡大率
+        img：画像ファイルのパス\n
+        zoom：拡大率\n
         xy：初期座標のタプル
         """
         sfc = pg.image.load(img)
@@ -57,14 +57,14 @@ class Tori:
 
     def blit(self, scr:Screen):
         """
-        描画
+        描画\n
         scr：スクリーンのインスタンス
         """
         scr.sfc.blit(self.sfc, self.rct)
 
     def update(self, scr:Screen):
         """
-        動きの設定
+        動きの設定\n
         scr：スクリーンのインスタンス
         """
         key_states = pg.key.get_pressed()
@@ -88,8 +88,8 @@ class Obj:
     """
     def __init__(self,img,zoom,xy):
         """
-        img：画像ファイルのパス
-        zoom：拡大率
+        img：画像ファイルのパス\n
+        zoom：拡大率\n
         xy：初期座標
         """
         sfc = pg.image.load(img)
@@ -99,15 +99,15 @@ class Obj:
 
     def blit(self,scr:Screen):
         """
-        描画
+        描画\n
         scr：スクリーンのインスタンス
         """
         scr.sfc.blit(self.sfc,self.rct)
 
     def update(self,scr:Screen,speed):
         """
-        動きの設定
-        scr：スクリーンのインスタンス
+        動きの設定\n
+        scr：スクリーンのインスタンス\n
         speed：障害物が迫ってくる速さ
         """
         self.rct.centerx -= speed
@@ -115,7 +115,16 @@ class Obj:
 
 
 class Txt:
+    """
+    テキスト表示用クラス
+    """
     def __init__(self,font,color,xy,text):
+        """
+        font：フォント\n
+        color：文字の色\n
+        xy：文字の中心座標\n
+        text：テキストの内容
+        """
         self.text = font.render(text, True, color)
         self.rct = self.text.get_rect()
         self.rct.center = xy
@@ -145,6 +154,9 @@ class Score():
 
 
 def start_scr():
+    """
+    最初の画面
+    """
     start_txt = Txt(pg.font.Font(None,120), "BLACK", (800, 450), "Push any key to start")
     clock = pg.time.Clock()
     while True:
@@ -161,6 +173,9 @@ def start_scr():
 
 
 def end_scr(score):
+    """
+    最後の画面
+    """
     end_txt = Txt(pg.font.Font(None,120), "BLACK", (800, 300), "GAME OVER")
     end_score = Txt(pg.font.Font(None,80), "BLACK", (800, 500), f"Score: {score:.0f}")
     end_restart = Txt(pg.font.Font(None,60), "BLACK", (800, 700), "Push R to return to start")
@@ -179,6 +194,7 @@ def end_scr(score):
         end_restart.blit(scr)
         pg.display.update()
         clock.tick(1000)
+
 
 def main():
     """
@@ -221,6 +237,7 @@ def main():
         score.update(scr)
         pg.display.update()
         clock.tick(1000)
+
 
 if __name__ == "__main__":
     pg.init()
