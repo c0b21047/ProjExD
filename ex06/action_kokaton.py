@@ -114,13 +114,23 @@ class Obj:
         self.blit(scr)  
 
 
-class Score:
+class Txt:
+    def __init__(self,font,color,xy,text):
+        self.text = font.render(text, True, color)
+        self.rct = self.text.get_rect()
+        self.rct.center = xy
+
+    def blit(self,scr:Screen):
+        scr.sfc.blit(self.text, self.rct)
+    
+
+class Score():
     """
     スコア用クラス
     """
     def __init__(self,font,color):
         self.val = 0
-        self.fonto = font #スコア表示のフォント
+        self.fonto = font 
         self.color = color
        
     def blit(self,scr:Screen):
@@ -133,11 +143,47 @@ class Score:
         self.val += 0.1
         self.blit(scr)
 
+
+def start_scr():
+    start_txt = Txt(pg.font.Font(None,120), "BLACK", (800, 450), "Push any key to start")
+    clock = pg.time.Clock()
+    while True:
+        for event in pg.event.get():
+            if event.type== pg.QUIT:
+                return None
+            if event.type == pg.KEYUP:
+                return main()
+                
+        scr.update(0)
+        start_txt.blit(scr)
+        pg.display.update()
+        clock.tick(1000)
+
+
+def end_scr(score):
+    end_txt = Txt(pg.font.Font(None,120), "BLACK", (800, 300), "GAME OVER")
+    end_score = Txt(pg.font.Font(None,80), "BLACK", (800, 500), f"Score: {score:.0f}")
+    end_restart = Txt(pg.font.Font(None,60), "BLACK", (800, 700), "Push R to return to start")
+
+    clock = pg.time.Clock()
+    while True:
+        for event in pg.event.get():
+            if event.type== pg.QUIT:
+                return True
+            if event.type == pg.KEYUP and event.key == pg.K_r:
+                return False
+                
+        scr.update(0)
+        end_txt.blit(scr)
+        end_score.blit(scr)
+        end_restart.blit(scr)
+        pg.display.update()
+        clock.tick(1000)
+
 def main():
     """
     メイン関数
     """
-    scr = Screen("避けろ！こうかとん", (1600,900), "fig/pg_bg.jpg") #スクリーンのインスタンス生成
     kkt = Tori("fig/3_1.png", 2.0, (600, 450)) #こうかとんのインスタンス生成
     obj_lst = ["fig/textbook1_kokugo.png", "fig/textbook2_sansu.png",
         "fig/textbook3_sugakuu.png", "fig/textbook4_rika.png",
@@ -146,38 +192,42 @@ def main():
 
     speed = 5 #速度
 
-    score = Score(pg.font.Font(None,60), "BLACK")
-    sub_score = 0
+    score = Score(pg.font.Font(None,60), "BLACK") #スコア表示インスタンス生成
+    sub_score = 0 #速度上昇時の計算用
 
-    clock = pg.time.Clock() # 練習1
+    clock = pg.time.Clock()
     while True:
         scr.update(speed)
-        for event in pg.event.get(): # 練習2
+        for event in pg.event.get():
             if event.type== pg.QUIT:
                 return
         
         kkt.update(scr)
-        if not int(random.random() * OBJECT_RATE) and len(objects) < MAX_OBJECT: #障害物の生成
+        if not int(random.random() * OBJECT_RATE) and len(objects) < MAX_OBJECT: #障害物の生成条件
             objects.append(Obj(random.choice(obj_lst), 0.5, (scr.rct.width,450))) #障害物のインスタンス生成
         
         for i,objct in enumerate(objects): #各障害物について
             objct.update(scr,speed)
             if kkt.rct.colliderect(objct.rct): #衝突判定
-                return
+                return score.val
 
             if objct.rct.centerx < 0: #画面外にいった障害物を削除
                 del objects[i]
                 score.add_score()
-                if score.val - sub_score > 1000:
+                if score.val - sub_score > 1000: #スコアが1000の倍数を超えるたびに加速
                     speed += 1
                     sub_score += 1000
 
         score.update(scr)
-        pg.display.update() #練習2
+        pg.display.update()
         clock.tick(1000)
 
 if __name__ == "__main__":
     pg.init()
-    main()
+    scr = Screen("避けろ！こうかとん", (1600,900), "fig/pg_bg.jpg") #スクリーンのインスタンス生成
+    while True:
+        score = start_scr()
+        if end_scr(score):
+            break
     pg.quit()
     sys.exit()
